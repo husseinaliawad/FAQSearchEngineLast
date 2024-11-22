@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h2>Search FAQs</h2>
+        <form method="POST" action="/search">
+            <div class="form-group">
+                <label for="query">Enter your question:</label>
+                <input type="text" class="form-control" id="query" name="query" required>
+            </div>
+            <div class="form-group">
+                <label for="algorithm">Select Search Algorithm:</label>
+                <select class="form-control" id="algorithm" name="algorithm" required>
+                    <option value="boolean">Boolean Model</option>
+                    <option value="extended_boolean">Extended Boolean Model</option>
+                    <option value="vector">Vector Space Model</option>
+                    <option value="bert">BERT Model</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        
+        {% if query %}
+            <h3 class="mt-4">Results for "{{ query }}"</h3>
+            <ul class="list-group">
+                {% for _, row in results.iterrows() %}
+                    <li class="list-group-item">
+                        <strong>Q:</strong> {{ row['question'] }}<br>
+                        <strong>A:</strong> {{ row['answer'] }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-6">
+        <h2>Add New FAQ</h2>
+        <form method="POST" action="/add">
+            <div class="form-group">
+                <label for="new_question">Question:</label>
+                <input type="text" class="form-control" id="new_question" name="question" required>
+            </div>
+            <div class="form-group">
+                <label for="new_answer">Answer:</label>
+                <textarea class="form-control" id="new_answer" name="answer" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Add FAQ</button>
+        </form>
+    </div>
+</div>
+
+<hr>
+
+<h3>Project Team</h3>
+<ul>
+  
+</ul>
+
+{% endblock %}
